@@ -44,6 +44,22 @@ $qr = QrCode::newInstance($renderer)
 	->toFile('qr.svg');
 ```
 
+Starting from version 1.1 you may also write directly to a `PSR-7` `StreamInterface` implementation, just call the `toStream` method:
+
+```php
+use Qrc\QrCode;
+use Qrc\Renderer\SvgRenderer;
+
+$stream = $response->getBody(); // $response being a PSR-7 ResponseInterface implementation
+$renderer = new SvgRenderer();
+$qr = QrCode::newInstance($renderer)
+	->setData('https://example.com')
+	->render()
+	->toStream($stream);
+```
+
+Please do note that in order to use this you **must** `require` a `PSR-7` implementation and pass an instance of a `StreamInterface` implementation.
+
 #### Advanced options
 
 All of the renderers support changing the background and fill colors, as well as the padding and scale.
