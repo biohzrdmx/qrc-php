@@ -14,6 +14,8 @@ namespace Qrc\Renderer;
 use RuntimeException;
 use InvalidArgumentException;
 
+use Psr\Http\Message\StreamInterface;
+
 use Qrc\Renderer\AbstractRenderer;
 
 class SvgRenderer extends AbstractRenderer {
@@ -84,5 +86,12 @@ class SvgRenderer extends AbstractRenderer {
             throw new InvalidArgumentException('The specified file is not writable');
         }
         file_put_contents($file, $this->svg);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function write(StreamInterface $stream): void {
+        $stream->write($this->svg);
     }
 }

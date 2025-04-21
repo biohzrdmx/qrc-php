@@ -11,6 +11,8 @@ declare(strict_types = 1);
 
 namespace Qrc\Renderer;
 
+use Psr\Http\Message\StreamInterface;
+
 interface RendererInterface {
 
     /**
@@ -35,4 +37,10 @@ interface RendererInterface {
      * @param  string $file File name
      */
     public function save(string $file): void;
+
+    /**
+     * Write to a stream
+     * @param  StreamInterface $stream StreamInterface implementation
+     */
+    public function write(StreamInterface $stream): void;
 }

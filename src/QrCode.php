@@ -13,6 +13,8 @@ namespace Qrc;
 
 use RuntimeException;
 
+use Psr\Http\Message\StreamInterface;
+
 use Qrc\ErrorCorrection;
 use Qrc\Renderer\RendererInterface;
 
@@ -146,6 +148,14 @@ class QrCode {
      */
     public function toFile(string $file): void {
         $this->renderer->save($file);
+    }
+
+    /**
+     * Write to a stream
+     * @param  StreamInterface $stream StreamInterface implementation
+     */
+    public function toStream(StreamInterface $stream): void {
+        $this->renderer->write($stream);
     }
 
     # QR-generation logic -----------------------------------------------------

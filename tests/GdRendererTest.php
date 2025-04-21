@@ -16,6 +16,8 @@ use RuntimeException;
 
 use PHPUnit\Framework\TestCase;
 
+use Caldera\Http\Stream;
+
 use Qrc\QrCode;
 use Qrc\Renderer\GifRenderer;
 use Qrc\Renderer\JpegRenderer;
@@ -121,5 +123,29 @@ class GdRendererTest extends TestCase {
         #
         $this->assertStringContainsString('<img src="data:image/', $qr->toHtml());
         $this->assertStringContainsString('image/webp', $qr->toDataUrl());
+    }
+
+    public function testWrite() {
+        $renderer = new PngRenderer();
+        $qr = QrCode::newInstance($renderer)
+            ->setData('0123456789')
+            ->render();
+        #
+        $stream = new Stream();
+        $qr->toStream($stream);
+        $stream->rewind();
+        $contents = $stream->getContents();
+        # Check PNG header 89 50 4E 47
+        $this->assertEquals([
+            chr(0x89),
+            chr(0x50),
+            chr(0x4E),
+            chr(0x47),
+        ], [
+            $contents[0],
+            $contents[1],
+            $contents[2],
+            $contents[3],
+        ]);
     }
 }

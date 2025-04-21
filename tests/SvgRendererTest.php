@@ -11,6 +11,7 @@ declare(strict_types = 1);
 
 namespace Qrc\Tests;
 
+use Caldera\Http\Stream;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -76,5 +77,19 @@ class SvgRendererTest extends TestCase {
         $file = dirname(__FILE__) . '/output';
         $qr->toFile($file);
         $this->assertTrue(true);
+    }
+
+    public function testWrite() {
+        $renderer = new SvgRenderer();
+        $qr = QrCode::newInstance($renderer)
+            ->setData('0123456789')
+            ->render();
+        #
+        $stream = new Stream();
+        $qr->toStream($stream);
+        $stream->rewind();
+        $contents = $stream->getContents();
+        $this->assertStringStartsWith('<svg', $contents);
+        $this->assertStringEndsWith('</svg>', $contents);
     }
 }

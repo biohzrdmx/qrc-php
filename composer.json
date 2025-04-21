@@ -1,7 +1,7 @@
 {
   "name": "biohzrdmx/qrc-php",
   "description": "Lightweight QR code generator",
-  "version": "1.0",
+  "version": "1.1",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -12,9 +12,13 @@
     }
   ],
   "require": {
-    "php": ">=8.1"
+    "php": ">=8.1",
+    "ext-gd": "*"
   },
-  "require-dev": {},
+  "require-dev": {
+    "psr/http-message": "^1.0",
+    "vecode/caldera-http": "^1.4"
+  },
   "autoload": {
     "psr-4": {
       "Qrc\\": "src/"

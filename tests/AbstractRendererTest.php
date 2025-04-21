@@ -15,6 +15,8 @@ use InvalidArgumentException;
 
 use PHPUnit\Framework\TestCase;
 
+use Psr\Http\Message\StreamInterface;
+
 use Qrc\Renderer\AbstractRenderer;
 
 class AbstractRendererTest extends TestCase {
@@ -57,6 +59,10 @@ class TestRenderer extends AbstractRenderer {
     }
 
     public function save(string $file): void {
+        #
+    }
+
+    public function write(StreamInterface $stream): void {
         #
     }
 }

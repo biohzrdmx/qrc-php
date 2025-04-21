@@ -15,6 +15,8 @@ use RuntimeException;
 
 use PHPUnit\Framework\TestCase;
 
+use Psr\Http\Message\StreamInterface;
+
 use Qrc\ErrorCorrection;
 use Qrc\QrCode;
 use Qrc\Renderer\AbstractRenderer;
@@ -138,5 +140,9 @@ class NullRenderer extends AbstractRenderer {
 
     public function save(string $file): void {
         file_put_contents($file, json_encode($this->code));
+    }
+
+    public function write(StreamInterface $stream): void {
+        #
     }
 }

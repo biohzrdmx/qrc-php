@@ -15,6 +15,8 @@ use GdImage;
 use InvalidArgumentException;
 use RuntimeException;
 
+use Psr\Http\Message\StreamInterface;
+
 use Qrc\Renderer\AbstractRenderer;
 
 abstract class GdRenderer extends AbstractRenderer {
@@ -113,6 +115,26 @@ abstract class GdRenderer extends AbstractRenderer {
             throw new InvalidArgumentException('The specified file is not writable');
         }
         $this->encode($file);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function write(StreamInterface $stream): void {
+        if (! $this->image ) {
+            // @codeCoverageIgnoreStart
+            throw new RuntimeException('The code has not been rendered yet');
+            // @codeCoverageIgnoreEnd
+        }
+        ob_start();
+        $this->encode();
+        $data = ob_get_clean();
+        if ( $data === false ){
+            // @codeCoverageIgnoreStart
+            throw new RuntimeException('Unable to generate image');
+            // @codeCoverageIgnoreEnd
+        }
+        $stream->write($data);
     }
 
     /**
