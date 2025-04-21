@@ -92,6 +92,7 @@ class SvgRenderer extends AbstractRenderer {
      * @inheritdoc
      */
     public function write(StreamInterface $stream): void {
-        $stream->write($this->svg);
+        $svg = str_replace(' {attrs}', '', $this->svg);
+        $stream->write($svg);
     }
 }
